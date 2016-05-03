@@ -1,7 +1,5 @@
 class CreateEntries < ActiveRecord::Migration
   def change
-  	drop_table :entries
-
     create_table :entries do |t|
       t.text :body
       t.text :title
