@@ -1,3 +1,4 @@
+<div class="entry">
 <li id="entry-<%= entry.id %>">
   <%= link_to gravatar_for(entry.user, size: 50), entry.user %>
   <span class="user"><%= link_to entry.user.name, entry.user %></span>
@@ -10,4 +11,24 @@
                                        data: { confirm: "You sure?" } %>
     <% end %>
   </span>
+
+  <ul id = "comments_<%=entry.id%>">
+    <%= render entry.comments %>
+  </ul>
+
+  <% if logged_in? && (current_user.following?(entry.user)||current_user?(entry.user))%>
+    <%= form_for(@comment = entry.comments.build, remote: true ) do |f| %>
+        <div>
+          <%= hidden_field :comment, :entry_id %>
+          <%= hidden_field_tag :user_id, current_user.id %>
+        </div>
+        <p>
+          <br />
+          <%= f.text_field :content, placeholder: "Comment ...", class: 'comment_content' %>
+          
+        </p>
+      
+    <% end %>
+  <% end %>  
 </li>
+</div>

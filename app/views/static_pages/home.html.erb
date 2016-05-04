@@ -1,10 +1,13 @@
-
 <% if logged_in? %>
   <div class="row">
     <aside class="col-md-4">
       <section class="user_info">
         <%= render 'shared/user_info' %>
       </section>
+      <section class="stats">
+        <%= render 'shared/stats' %>
+      </section>
+
       <section class="entry_form">
         <%= render 'shared/entry_form' %>
       </section>
@@ -15,19 +18,17 @@
     </div>
   </div>
 <% else %>
-
-<div class="center jumbotron">
-  <h1>Welcome to the Sample App</h1>
-
-  <h2>
-    This is the home page for the
-    <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
-    sample application.
-  </h2>
-
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</div>
-
-<%= link_to image_tag("rails.png", alt: "Rails logo"),
-            'http://rubyonrails.org/' %>
+  <% @entry.each do |entry| %>
+  <div class="entry">
+    <li id="entry-<%= entry.id %>">
+      <%= link_to gravatar_for(entry.user, size: 50), entry.user %>
+      <span class="user"><%= link_to entry.user.name, entry.user %></span>
+      <span class="content"><%= entry.title %></span>
+      <span class="content"><%= entry.body %></span>
+      <ul id = "comments_<%=entry.id%>">
+        <%= render entry.comments %>
+      </ul>
+    </li>
+  </div>
+  <% end %>
 <% end %>
