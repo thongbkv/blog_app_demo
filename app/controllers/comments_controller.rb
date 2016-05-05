@@ -6,17 +6,17 @@ class CommentsController < ApplicationController
     @entry = Entry.find_by(id: params[:comment][:entry_id])
   	@comment = @entry.comments.build(comment_params)
   	@comment.user = current_user
-  	byebug
   	if @comment.save
   		flash[:success] = 'Created comment'
-	  	respond_to do |format|
-	      format.html { redirect_to :back, notice: "Comment created" }
+	  	
+    else
+    	@errors = 'Something went wrong!'
+    	
+    end
+    respond_to do |format|
+	      # format.html { redirect_to :back, notice: "Comment error" }
 	      format.js
     	end
-    else
-    	flash[:danger] = 'Something went wrong!'
-    	redirect_to request.referer
-    end
 	end
 
 	def destroy

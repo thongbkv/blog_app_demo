@@ -17,7 +17,17 @@
   </ul>
 
   <% if logged_in? && (current_user.following?(entry.user)||current_user?(entry.user))%>
-      <% render 'shared/comment_form' %>
+      <%= form_for(@comment = entry.comments.build, remote: true ) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <div>
+          <%= hidden_field :comment, :entry_id %>
+          <%= hidden_field_tag :user_id, current_user.id %>
+        </div>
+        <p>
+          <br />
+          <%= f.text_field :content, placeholder: "Comment ...", class: 'comment_content' %>
+        </p>
+    <% end %>
   <% end %>  
 </li>
 </div>
