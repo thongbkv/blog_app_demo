@@ -6,9 +6,8 @@ class CommentsController < ApplicationController
     @entry = Entry.find_by(id: params[:comment][:entry_id])
   	@comment = @entry.comments.build(comment_params)
   	@comment.user = current_user
-  	if @comment.save
+  	if (current_user.following?(@entry.user) && @comment.save)
   		flash[:success] = 'Created comment'
-	  	
     else
     	@errors = 'Something went wrong!'
     	
